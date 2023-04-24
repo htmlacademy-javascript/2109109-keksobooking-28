@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
-* Студент: [Nino Svanadze](https://up.htmlacademy.ru/javascript/28/user/2109109).
-* Наставник: `Неизвестно`.
+- Студент: [Nino Svanadze](https://up.htmlacademy.ru/javascript/28/user/2109109).
+- Наставник: `Николай Колганов`.
 
 ---
 
