@@ -5,11 +5,11 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-function getRandomFloat(min, max, decimals) {
+const getRandomFloat = (min, max, decimals) => {
   const str = (Math.random() * (max - min) + min).toFixed(decimals);
 
   return parseFloat(str);
-}
+};
 
 const getRandomArrayElement = (array) =>
   array[getRandomInteger(0, array.length - 1)];
