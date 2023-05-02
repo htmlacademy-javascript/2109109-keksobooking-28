@@ -26,14 +26,14 @@ const createAuthor = () => ({
     .padStart(2, '0')}.png`,
 });
 
-const generateData = () => ({
+const generateData = (index) => ({
   author: {
     avatar: createAuthor(),
   },
 
   offer: {
     title: getRandomArrayElement(TITLES),
-    address: `${LOCATIONS.MAX_LAT}, ${LOCATIONS.MAX_LNG}`,
+    address: `${location.lat}, ${location.lng}`,
     price: getRandomInteger(MIN_PRICE, MAX_PRICE),
     type: getRandomArrayElement(TYPES),
     rooms: getRandomInteger(1, MAX_ROOMS),
@@ -49,11 +49,12 @@ const generateData = () => ({
     lat: getRandomFloat(LOCATIONS.MIN_LAT, LOCATIONS.MAX_LAT, 5),
     lng: getRandomFloat(LOCATIONS.MIN_LNG, LOCATIONS.MAX_LNG, 5),
   },
+
+  index: index,
 });
 
 const getOffers = () =>
   Array.from({ length: ARRAY_COUNT }, (_, pictureIndex) =>
     generateData(pictureIndex + 1),
   );
-
 export { getOffers };

@@ -21,12 +21,12 @@ const FEATURES = [
 ];
 
 const DESCRIPTIONS = [
-  'Nestled in the heart of the Rocky Mountains, this charming town boasts stunning views of snow-capped peaks and crystal-clear lakes. ',
-  'This bustling city is a cultural melting pot, with vibrant neighborhoods filled with eclectic restaurants, art galleries, and music venues.',
-  'Tucked away on the coast, this sleepy fishing village is a tranquil escape from the hustle and bustle of city life.',
-  'This historic town is a step back in time, with cobblestone streets, colonial architecture, and quaint shops selling handmade crafts.',
-  'Perched on a hilltop, this picturesque village offers panoramic views of rolling hills and lush greenery.',
-  'Surrounded by towering mountains and glittering lakes, this resort town is a paradise for outdoor enthusiasts.',
+  'Домик в деревне',
+  'Город грехов',
+  'Дом, который построил Джек',
+  'Беверли-Хиллз',
+  'Место встречи',
+  'Место под соснами',
 ];
 
 const PHOTOS = [
