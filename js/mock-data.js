@@ -5,7 +5,11 @@ const MAX_PRICE = 17000;
 const MAX_ROOMS = 20;
 const MAX_GUESTS = 15;
 
-const TITLES = ['The House that Jack built', 'The Red Room', 'Wonderland'];
+const TITLES = [
+  'Дом на курьих ножках',
+  'Красная комната Стенли Кубрика',
+  'Страна чудес',
+];
 
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 
