@@ -1,35 +1,32 @@
-function getRandomInteger(a, b) {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
+function getRandomInteger(min, max) {
+  const lower = Math.ceil(Math.min(min, max));
+  const upper = Math.floor(Math.max(min, max));
+  return Math.floor(Math.random() * (upper - lower + 1)) + lower;
 }
 
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function createRandomIdFromRangeGenerator(a, b, cb) {
-  const previousValues = [];
+function createRandomIdFromRangeGenerator(min, max, callback) {
+  const previousValues = new Set();
   return function () {
-    let currentValue = cb(a, b);
-    while (previousValues.includes(currentValue)) {
-      currentValue = cb(a, b);
+    let currentValue = callback(min, max);
+    while (previousValues.has(currentValue)) {
+      currentValue = callback(min, max);
     }
-    previousValues.push(currentValue);
+    previousValues.add(currentValue);
     return currentValue;
   };
 }
 
 function sortRandomly(arr) {
-  let j, temp;
-  for (let i = arr.length - 1; i > 0; i--) {
-    j = Math.floor(Math.random() * (i + 1));
-    temp = arr[j];
-    arr[j] = arr[i];
-    arr[i] = temp;
+  const shuffledArray = [...arr];
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
   }
-  return arr;
+  return shuffledArray;
 }
 
 export {
