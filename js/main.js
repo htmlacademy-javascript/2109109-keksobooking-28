@@ -1,3 +1,6 @@
-import './mock-data.js';
-import './util.js';
-import './data-generation.js';
+import '../js/util.js';
+import '../js/data.js';
+import '../js/thumbnails.js';
+import '../js/activate.js';
+import '../js/form.js';
+import '../js/map.js';
