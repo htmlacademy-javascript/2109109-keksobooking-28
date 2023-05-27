@@ -1,7 +1,4 @@
-import { createAdsArray } from './data.js';
-
-const usersAds = createAdsArray();
-const adsCardTemplate = document
+const adCardTemplate = document
   .querySelector('#card')
   .content.querySelector('.popup');
 
@@ -13,18 +10,19 @@ const housingTypeCaptions = {
   hotel: 'Отель',
 };
 
-function hideUnusedFeatures(featureElements, features) {
-  featureElements.forEach((element) => {
-    const isFeatureUsed = features.includes(element.dataset.feature);
-    if (!isFeatureUsed) {
-      element.classList.add('hidden');
+function hideFeaturesWithoutNecessary(popupList, features) {
+  popupList.forEach((popupListItem) => {
+    const isNecessary = features.some((feature) =>
+      popupListItem.classList.contains(`popup__feature--${feature}`),
+    );
+    if (!isNecessary) {
+      popupListItem.classList.add('hidden');
     }
   });
 }
 
-function createAdPopup({ author, offer }) {
-  const adCard = adsCardTemplate.cloneNode(true);
-
+function generateAdPopup({ author, offer }) {
+  const adCard = adCardTemplate.cloneNode(true);
   adCard.querySelector('.popup__title').textContent = offer.title;
   adCard.querySelector('.popup__text--address').textContent = offer.address;
   adCard.querySelector(
@@ -41,14 +39,15 @@ function createAdPopup({ author, offer }) {
 
   const featuresContainer = adCard.querySelector('.popup__features');
   const featureList = featuresContainer.querySelectorAll('.popup__feature');
-  if (offer.features.length === 0) {
-    featuresContainer.classList.add('hidden');
+
+  if ('features' in offer) {
+    hideFeaturesWithoutNecessary(featureList, offer.features);
   } else {
-    hideUnusedFeatures(featureList, offer.features);
+    featuresContainer.classList.add('hidden');
   }
 
   const popupDescription = adCard.querySelector('.popup__description');
-  if (!offer.description) {
+  if (popupDescription.textContent === '') {
     popupDescription.classList.add('hidden');
   } else {
     popupDescription.textContent = offer.description;
@@ -56,21 +55,20 @@ function createAdPopup({ author, offer }) {
 
   const photoContainer = adCard.querySelector('.popup__photos');
   const popupPhotoInit = photoContainer.querySelector('.popup__photo');
-  if (offer.photos.length === 0) {
-    popupPhotoInit.classList.add('hidden');
-  } else {
+  if ('photos' in offer) {
     offer.photos.forEach((photo) => {
       const popupPhotoClone = popupPhotoInit.cloneNode(true);
       popupPhotoClone.src = photo;
       photoContainer.append(popupPhotoClone);
+      popupPhotoInit.remove();
     });
-    popupPhotoInit.remove();
+  } else {
+    popupPhotoInit.classList.add('hidden');
   }
 
-  const popupAvatar = adCard.querySelector('.popup__avatar');
-  popupAvatar.src = author.avatar || 'img/avatars/default.png';
-
+  adCard.querySelector('.popup__avatar').src =
+    author.avatar.length === 0 ? 'img/avatars/default.png' : author.avatar;
   return adCard;
 }
 
-export { housingTypeCaptions, createAdPopup, usersAds };
+export { housingTypeCaptions, generateAdPopup };

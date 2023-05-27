@@ -6,16 +6,32 @@ const filterElements = mapFilter.querySelectorAll('select, fieldset');
 function activateWebPage() {
   adForm.classList.remove('ad-form--disabled');
   mapFilter.classList.remove('map__filters--disabled');
-  formFields.forEach((field) => field.removeAttribute('disabled'));
-  filterElements.forEach((element) => element.removeAttribute('disabled'));
+  enableFormElements(formFields);
 }
 
 function deactivateWebPage() {
   adForm.classList.add('ad-form--disabled');
   mapFilter.classList.add('map__filters--disabled');
-  formFields.forEach((field) => field.setAttribute('disabled', true));
-  filterElements.forEach((element) => element.setAttribute('disabled', true));
+  disableFormElements(formFields);
+  disableFormElements(filterElements);
+}
+
+function activateFilters() {
+  enableFormElements(filterElements);
+}
+
+function enableFormElements(elements) {
+  elements.forEach((element) => {
+    element.removeAttribute('disabled');
+  });
+}
+
+function disableFormElements(elements) {
+  elements.forEach((element) => {
+    element.setAttribute('disabled', true);
+  });
 }
 
 deactivateWebPage();
-export { activateWebPage, deactivateWebPage };
+
+export { activateWebPage, deactivateWebPage, activateFilters };
