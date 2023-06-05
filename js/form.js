@@ -99,12 +99,12 @@ const clearForm = () => {
   slider.noUiSlider.reset();
 };
 
-const onSuccess = () => {
+const handleSuccess = () => {
   clearForm();
   showModal('success');
 };
 
-const onError = () => {
+const handleError = () => {
   showModal('error');
 };
 
@@ -166,7 +166,7 @@ const setFormSubmit = () => {
       blockSubmitBtn();
       disableForm();
 
-      sendData(data, onSuccess, onError).then(() => {
+      sendData(data, handleSuccess, handleError).then(() => {
         unblockSubmitBtn();
         enableForm();
         resetMap();
@@ -186,18 +186,18 @@ const createImageBlock = (url, parent) => {
   parent.appendChild(img);
 };
 
-const uploadImage = (field, preview, purpose) => {
-  const file = field.files[0];
+const uploadImage = (uploadField, previewBlock, purpose) => {
+  const file = uploadField.files[0];
   const fileName = file.name.toLowerCase();
-  // eslint-disable-next-line no-shadow
-  const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
+
+  const matches = FILE_TYPES.some((ft) => fileName.endsWith(ft));
 
   if (matches) {
     if (purpose === UPLOAD_PURPOSES.avatar) {
-      preview.src = URL.createObjectURL(file);
+      previewBlock.src = URL.createObjectURL(file);
     } else if (purpose === UPLOAD_PURPOSES.photo) {
-      preview.innerHTML = '';
-      createImageBlock(URL.createObjectURL(file), preview);
+      previewBlock.innerHTML = '';
+      createImageBlock(URL.createObjectURL(file), previewBlock);
     }
   }
 };
