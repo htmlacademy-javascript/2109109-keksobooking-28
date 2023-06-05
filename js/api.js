@@ -3,33 +3,29 @@ const API_ROUTE = {
   GET_DATA: '/data',
   SEND_DATA: '/',
 };
-const HTTP_METHOD = {
+const API_METHOD = {
   GET: 'GET',
   POST: 'POST',
 };
 
-const makeRequest = async (route, method = HTTP_METHOD.GET, body = null) => {
-  const response = await fetch(`${API_BASE_URL}${route}`, { method, body });
-  if (!response.ok) {
-    throw new Error('Запрос не удалось выполнить.');
-  }
-  return response.json();
-};
+const ERROR_MESSAGE =
+  'Не удалось загрузить данные. Попробуйте обновить страницу';
 
-const getData = async () => {
-  try {
-    return await makeRequest(API_ROUTE.GET_DATA);
-  } catch {
-    throw new Error('Не удалось получить данные.');
-  }
-};
+const request = (route, method = API_METHOD.GET, body = null) =>
+  fetch(`${API_BASE_URL}${route}`, { method, body });
 
-const sendData = async (body) => {
-  try {
-    await makeRequest(API_ROUTE.SEND_DATA, HTTP_METHOD.POST, body);
-  } catch {
-    throw new Error('Не удалось отправить данные.');
-  }
-};
+const getData = () =>
+  request(API_ROUTE.GET_DATA).then((response) => response.json());
 
-export { getData, sendData };
+const sendData = (body, onSuccess, onError) =>
+  request(API_ROUTE.SEND_DATA, API_METHOD.POST, body)
+    .then((response) => {
+      if (response.ok) {
+        onSuccess();
+      } else {
+        onError();
+      }
+    })
+    .catch(onError);
+
+export { getData, sendData, ERROR_MESSAGE };

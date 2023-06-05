@@ -2,24 +2,24 @@
    ========================================================================== */
 
 @font-face {
-  font-family: "Roboto";
-  src: url("../fonts/Roboto-Bold.woff2") format("woff2");
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Bold.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Roboto";
-  src: url("../fonts/Roboto-Regular.woff2") format("woff2");
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Roboto";
-  src: url("../fonts/Roboto-Medium.woff2") format("woff2");
+  font-family: 'Roboto';
+  src: url('../fonts/Roboto-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -29,12 +29,12 @@
 *::before,
 *::after {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .content-box-component {
   -webkit-box-sizing: content-box;
-          box-sizing: content-box;
+  box-sizing: content-box;
 }
 
 body {
@@ -43,7 +43,7 @@ body {
   margin: 0 auto;
 
   color: #353535;
-  font-family: "Roboto", "Arial", sans-serif;
+  font-family: 'Roboto', 'Arial', sans-serif;
   font-size: 16px;
 
   background-color: #f0f0ea;
@@ -55,7 +55,6 @@ fieldset {
 
   border: 0;
 }
-
 
 /* Карта с объявлениями
    ========================================================================== */
@@ -73,12 +72,12 @@ fieldset {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
+  -ms-flex-align: end;
+  align-items: flex-end;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
 
   overflow: hidden;
 }
@@ -88,7 +87,6 @@ fieldset {
   height: 500px;
   background-color: #dddddd;
 }
-
 
 /**
  * Фильтры объявления
@@ -104,11 +102,11 @@ fieldset {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 
   width: 960px;
   height: 50px;
@@ -144,7 +142,7 @@ fieldset {
 .map__filter:focus {
   outline: none;
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
-          box-shadow: 0 0 2px 2px #ff6547;
+  box-shadow: 0 0 2px 2px #ff6547;
 }
 
 .map__feature {
@@ -159,7 +157,7 @@ fieldset {
   cursor: pointer;
 
   background-color: #f8f8f8;
-  background-image: url("../img/sprite-feature.svg");
+  background-image: url('../img/sprite-feature.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 25px 345px;
@@ -217,27 +215,26 @@ fieldset {
 
 .map__feature:hover {
   -webkit-box-shadow: inset 0 0 0 1px #ffaa99;
-          box-shadow: inset 0 0 0 1px #ffaa99;
+  box-shadow: inset 0 0 0 1px #ffaa99;
 }
 
 .map__feature:focus,
 .map__checkbox:focus + .map__feature {
-   -webkit-box-shadow: 0 0 2px 2px #ff6547;
-           box-shadow: 0 0 2px 2px #ff6547;
- }
+  -webkit-box-shadow: 0 0 2px 2px #ff6547;
+  box-shadow: 0 0 2px 2px #ff6547;
+}
 
 .map__feature:active {
   -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   background-color: #ff6547;
 }
 
 .map__checkbox:checked + .map__feature {
   background-color: #ff6547;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
 }
-
 
 /* Форма для публикации объявления
    ========================================================================== */
@@ -260,7 +257,7 @@ fieldset {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 
   width: 100%;
 }
@@ -284,8 +281,8 @@ fieldset {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .ad-form-header__preview {
@@ -293,8 +290,8 @@ fieldset {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 
   margin-right: 10px;
   padding: 0 15px;
@@ -316,8 +313,8 @@ fieldset {
 }
 
 .ad-form-header__info {
-    margin-top: 0;
-    margin-left: 20px;
+  margin-top: 0;
+  margin-left: 20px;
 }
 
 .ad-form-header__drop-zone {
@@ -342,12 +339,12 @@ fieldset {
 .ad-form-header__input:focus + .ad-form-header__drop-zone {
   color: #ff5635;
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
-          box-shadow: 0 0 2px 2px #ff6547;
+  box-shadow: 0 0 2px 2px #ff6547;
 }
 
 .ad-form__element {
   -ms-flex-preferred-size: 25%;
-      flex-basis: 25%;
+  flex-basis: 25%;
   min-height: 90px;
 
   font-size: 14px;
@@ -355,7 +352,7 @@ fieldset {
 
 .ad-form__element--wide {
   -ms-flex-preferred-size: 50%;
-      flex-basis: 50%;
+  flex-basis: 50%;
   max-width: 50%;
 }
 
@@ -369,7 +366,7 @@ fieldset {
 .ad-form__element textarea {
   width: calc(100% - 20px);
 
-  font-family: "Roboto", "Arial", sans-serif;
+  font-family: 'Roboto', 'Arial', sans-serif;
   font-size: 18px;
 
   height: 42px;
@@ -391,12 +388,12 @@ fieldset {
 .ad-form__element textarea:focus {
   outline: none;
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
-          box-shadow: 0 0 2px 2px #ff6547;
+  box-shadow: 0 0 2px 2px #ff6547;
 }
 
 .ad-form__element--time {
   -ms-flex-preferred-size: 50%;
-      flex-basis: 50%;
+  flex-basis: 50%;
 }
 
 .ad-form__element--time select {
@@ -450,7 +447,7 @@ fieldset {
   border-radius: 3px;
 
   background-color: #fafafa;
-  background-image: url("../img/sprite-feature.svg");
+  background-image: url('../img/sprite-feature.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 35px 600px;
@@ -460,12 +457,12 @@ fieldset {
 
 .features__label:hover {
   -webkit-box-shadow: inset 0 0 0 1px #ffaa99;
-          box-shadow: inset 0 0 0 1px #ffaa99;
+  box-shadow: inset 0 0 0 1px #ffaa99;
 }
 
 .features__label:active {
   -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   background-color: #ff6547;
 }
 
@@ -476,13 +473,13 @@ fieldset {
 .features__label:focus,
 .features__checkbox:focus + .features__label {
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
-          box-shadow: 0 0 2px 2px #ff6547;
+  box-shadow: 0 0 2px 2px #ff6547;
 }
 
 .features__checkbox:checked + .features__label {
   background-color: #ff6547;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
 }
 
 .features__label--wifi {
@@ -550,7 +547,7 @@ fieldset {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .ad-form__upload {
@@ -594,7 +591,7 @@ fieldset {
 .ad-form__input:focus + .ad-form__drop-zone {
   color: #ff5635;
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
-          box-shadow: 0 0 2px 2px #ff6547;
+  box-shadow: 0 0 2px 2px #ff6547;
 }
 
 .ad-form__photo {
@@ -610,7 +607,7 @@ fieldset {
 
 .ad-form__element--submit {
   -ms-flex-preferred-size: 100%;
-      flex-basis: 100%;
+  flex-basis: 100%;
   padding: 40px 0;
 
   text-align: center;
@@ -621,7 +618,7 @@ fieldset {
   font-weight: 700;
 
   -webkit-box-sizing: content-box;
-          box-sizing: content-box;
+  box-sizing: content-box;
 
   width: 206px;
   height: 60px;
@@ -663,7 +660,7 @@ fieldset {
 .ad-form__reset:focus {
   outline: none;
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
-          box-shadow: 0 0 2px 2px #ff6547;
+  box-shadow: 0 0 2px 2px #ff6547;
 }
 
 /* Ошибка валидации */
@@ -678,8 +675,6 @@ fieldset {
   padding: 4px;
 }
 
-
-
 /* Футер
    ========================================================================== */
 
@@ -692,11 +687,11 @@ fieldset {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
 .copyright {
@@ -714,7 +709,7 @@ fieldset {
 .copyright__link:focus {
   outline: none;
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
-          box-shadow: 0 0 2px 2px #ff6547;
+  box-shadow: 0 0 2px 2px #ff6547;
 }
 
 .copyright__link--text {
@@ -744,7 +739,7 @@ fieldset {
 
   font-size: 0;
 
-  background-image: url("../img/sprite-social.svg");
+  background-image: url('../img/sprite-social.svg');
   background-repeat: no-repeat;
   background-size: 29px 274px;
 
@@ -754,7 +749,7 @@ fieldset {
 .contacts__link:focus {
   outline: none;
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
-          box-shadow: 0 0 2px 2px #ff6547;
+  box-shadow: 0 0 2px 2px #ff6547;
 }
 
 .contacts__link--twitter {
@@ -777,9 +772,8 @@ fieldset {
 
 .contacts__link:focus {
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
-          box-shadow: 0 0 2px 2px #ff6547;
+  box-shadow: 0 0 2px 2px #ff6547;
 }
-
 
 /* Вспомогательные экраны
    ========================================================================== */
@@ -818,14 +812,14 @@ fieldset {
 
 .popup__close:active {
   -webkit-transform: translate(1px, 1px);
-      -ms-transform: translate(1px, 1px);
-          transform: translate(1px, 1px);
+  -ms-transform: translate(1px, 1px);
+  transform: translate(1px, 1px);
 }
 
 .popup__close:focus {
   outline: none;
   -webkit-box-shadow: 0 0 10px 3px #ff6547;
-          box-shadow: 0 0 10px 3px #ff6547;
+  box-shadow: 0 0 10px 3px #ff6547;
 }
 
 .popup__close::after {
@@ -833,7 +827,7 @@ fieldset {
   line-height: 40px;
 
   display: block;
-  content: "×";
+  content: '×';
 
   color: #000000;
 }
@@ -888,7 +882,7 @@ fieldset {
 
   font-size: 0;
 
-  background-image: url("../img/sprite-feature.svg");
+  background-image: url('../img/sprite-feature.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: 25px 345px;
@@ -923,10 +917,10 @@ fieldset {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .popup__photo {
@@ -937,7 +931,6 @@ fieldset {
 .popup__photo:hover {
   border: 2px solid #ff5635;
 }
-
 
 /**
  * Сообщения об успешном и неуспешном создании объявления
@@ -951,7 +944,7 @@ fieldset {
   z-index: 1100;
 
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 
   width: 100%;
   height: 100%;
@@ -976,7 +969,7 @@ fieldset {
 
 .success__message::before,
 .error__message::before {
-  content: "";
+  content: '';
   position: absolute;
 
   top: -150px;
@@ -985,17 +978,17 @@ fieldset {
   width: 109px;
   height: 122px;
 
-  background-image: url("../img/muffin-white.svg");
+  background-image: url('../img/muffin-white.svg');
   background-position: center;
   background-repeat: no-repeat;
 
   -webkit-transform: translateX(-50%);
-      -ms-transform: translateX(-50%);
-          transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
 }
 
 .error__message::before {
-  background-image: url("../img/muffin-red.svg");
+  background-image: url('../img/muffin-red.svg');
 }
 
 .error__button {
@@ -1005,7 +998,7 @@ fieldset {
   font-weight: 700;
 
   -webkit-box-sizing: content-box;
-          box-sizing: content-box;
+  box-sizing: content-box;
 
   color: white;
   border: 4px solid #ff5635;
@@ -1040,11 +1033,25 @@ fieldset {
 
   -webkit-clip-path: inset(100%);
 
-          clip-path: inset(100%);
+  clip-path: inset(100%);
   clip: rect(0 0 0 0);
   overflow: hidden;
 }
 
 .hidden {
   display: none;
+}
+
+/* Сообщение об ошибке получения данных с сервера */
+
+.alert-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  padding: 10px 3px;
+  font-size: 20px;
+  text-align: center;
+  background-color: #ff0000;
+  z-index: 100;
 }

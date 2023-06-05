@@ -1,8 +1,16 @@
-import { isMapInit, renderMarkers, resetMap } from './mapUtils.js';
+import { checkIsMapInit, renderMarkers, resetMap } from './map.js';
 import { getData, sendData } from './api.js';
-import { showAlert, isEscapeKey, debounce } from './utility.js';
+import {
+  displayAlert,
+  isEscapeKeyPressed,
+  debounce,
+  setElementAvailability,
+} from './util.js';
+import { resetForm } from './filters.js';
 
+const TITLE_LENGTH = { min: 30, max: 100 };
 const MAX_PRICE = 100000;
+
 const MIN_PRICE = {
   bungalow: 0,
   flat: 1000,
@@ -10,81 +18,52 @@ const MIN_PRICE = {
   house: 5000,
   palace: 10000,
 };
-const PRICE_SLIDER = {
-  min: 0,
-  max: 100000,
-  step: 1000,
-  start: 5000,
-};
-const CAPACITY = {
-  1: [1],
-  2: [1, 2],
-  3: [1, 2, 3],
-  100: [0],
-};
-const ALLOWED_FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-const adForm = document.querySelector('.ad-form');
-const mapFilters = document.querySelector('.map__filters');
-const titleInput = adForm.querySelector('#title');
-const priceInput = adForm.querySelector('#price');
-const typeSelect = adForm.querySelector('#type');
-const timeInSelect = adForm.querySelector('#timein');
-const timeOutSelect = adForm.querySelector('#timeout');
-const priceSlider = adForm.querySelector('#slider');
-const roomSelect = adForm.querySelector('#room_number');
-const capacitySelect = adForm.querySelector('#capacity');
-const submitBtn = adForm.querySelector('.ad-form__submit');
-const resetBtn = adForm.querySelector('.ad-form__reset');
-const avatarInput = adForm.querySelector('#avatar');
-const avatarPreview = adForm.querySelector('.ad-form-header__preview img');
-const imagesInput = adForm.querySelector('#images');
-const imagesPreview = adForm.querySelector('.ad-form__photo');
-const filtersForm = document.querySelector('.map__filters');
+const SLIDER_SETTINGS = { min: 0, max: 100000, step: 1000, start: 1000 };
+const CAPACITY_OPTIONS = { 1: [1], 2: [1, 2], 3: [1, 2, 3], 100: [0] };
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
-const modalCases = ['error', 'success'];
-
-const setInteractiveElementsAvailability = (
-  selector,
-  container = document,
-  state = true,
-) => {
-  container.querySelectorAll(selector).forEach((element) => {
-    element.disabled = state;
-  });
+const ERROR_MESSAGES = {
+  title: 'Длина заголовка должна быть от 30 до 100 символов',
+  priceLow: (limit) =>
+    `Для указанного типа жилья цена должна быть не менее ${limit} руб.`,
+  priceHigh: `Цена не может быть более ${MAX_PRICE} руб.`,
+  capacity: 'Не получится разместить такое количество гостей.',
 };
+
+const UPLOAD_PURPOSES = { avatar: 'avatar', photo: 'photo' };
+
+const form = document.querySelector('.ad-form');
+const title = form.querySelector('#title');
+const price = form.querySelector('#price');
+const type = form.querySelector('#type');
+const timeIn = form.querySelector('#timein');
+const timeOut = form.querySelector('#timeout');
+const timeInOptions = timeIn.querySelectorAll('option');
+const timeOutOptions = timeOut.querySelectorAll('option');
+const slider = form.querySelector('#slider');
+const roomNumber = form.querySelector('#room_number');
+const capacity = form.querySelector('#capacity');
+const submitBtn = form.querySelector('.ad-form__submit');
+const resetBtn = form.querySelector('.ad-form__reset');
+const uploadAvatar = form.querySelector('#avatar');
+const avatarPreview = form.querySelector('.ad-form-header__preview img');
+const uploadImages = form.querySelector('#images');
+const imagesPreview = form.querySelector('.ad-form__photo');
+
+const modals = ['error', 'success'];
 
 const disableForm = () => {
-  adForm.classList.add('ad-form--disabled');
-  setInteractiveElementsAvailability('input', adForm, true);
-  setInteractiveElementsAvailability('button', adForm, true);
-};
-
-const disableMapFilters = () => {
-  mapFilters.classList.add('map__filters--disabled');
-  setInteractiveElementsAvailability('select', mapFilters, true);
-  setInteractiveElementsAvailability('fieldset', mapFilters, true);
+  form.classList.add('ad-form--disabled');
+  setElementAvailability('input', form, true);
+  setElementAvailability('button', form, true);
 };
 
 const enableForm = () => {
-  adForm.classList.remove('ad-form--disabled');
-  setInteractiveElementsAvailability('input', adForm, false);
-  setInteractiveElementsAvailability('button', adForm, false);
+  form.classList.remove('ad-form--disabled');
+  setElementAvailability('input', form, false);
+  setElementAvailability('button', form, false);
 };
-
-const enableMapFilters = () => {
-  mapFilters.classList.remove('map__filters--disabled');
-  setInteractiveElementsAvailability('select', mapFilters, false);
-  setInteractiveElementsAvailability('fieldset', mapFilters, false);
-};
-
-disableForm();
-disableMapFilters();
-
-if (isMapInit) {
-  enableForm();
-  enableMapFilters();
-}
 
 const blockSubmitBtn = () => {
   submitBtn.disabled = true;
@@ -94,30 +73,30 @@ const unblockSubmitBtn = () => {
   submitBtn.disabled = false;
 };
 
-const closeModal = (result) => {
-  document.querySelector(`.${result}`).remove();
+const closeModal = (modal) => {
+  document.querySelector(`.${modal}`).remove();
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const showModal = (result) => {
-  const modalTemplate = document
-    .querySelector(`#${result}`)
-    .content.querySelector(`.${result}`);
-  const modalElement = modalTemplate.cloneNode(true);
+const showModal = (modal) => {
+  const template = document
+    .querySelector(`#${modal}`)
+    .content.querySelector(`.${modal}`);
+  const element = template.cloneNode(true);
 
-  document.body.appendChild(modalElement);
-
-  document.querySelector(`.${result}`).addEventListener('click', () => {
-    closeModal(result);
+  element.addEventListener('click', () => {
+    closeModal(modal);
   });
+
+  document.body.appendChild(element);
+
+  document.addEventListener('keydown', onDocumentKeydown);
 };
 
-document.addEventListener('keydown', onDocumentKeydown);
-
 const clearForm = () => {
-  adForm.reset();
-  filtersForm.reset();
-  noUiSlider.reset();
+  form.reset();
+  resetForm();
+  slider.noUiSlider.reset();
 };
 
 const onSuccess = () => {
@@ -125,26 +104,28 @@ const onSuccess = () => {
   showModal('success');
 };
 
-const onError = () => showModal('error');
+const onError = () => {
+  showModal('error');
+};
 
-const isModalOpen = (modalName) => {
-  const modal = document.querySelector(`${modalName}`);
-  return modal !== null;
+const isModalOpen = (modal) => {
+  const element = document.querySelector(`.${modal}`);
+  return element !== null;
 };
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt) && !isModalOpen('error')) {
+  if (isEscapeKeyPressed(evt) && !isModalOpen('error')) {
     evt.preventDefault();
   }
 
-  modalCases.forEach((modalCase) => {
-    if (isModalOpen(modalCase)) {
-      closeModal(modalCase);
+  modals.forEach((modal) => {
+    if (isModalOpen(modal)) {
+      closeModal(modal);
     }
   });
 }
 
-const pristine = new Pristine(adForm, {
+const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
   errorTextParent: 'ad-form__element',
@@ -152,87 +133,107 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'text-help',
 });
 
-pristine.addValidator(
-  titleInput,
-  validateAdTitle,
-  'Заголовок написан неправильно',
-);
+const validateTitle = (value) => {
+  const regex = /[\w\d\s\n\W]/i;
+  return (
+    regex.test(value) &&
+    value.length >= TITLE_LENGTH.min &&
+    value.length <= TITLE_LENGTH.max
+  );
+};
 
-pristine.addValidator(
-  priceInput,
-  validateAdPrice,
-  'Цена является несоответствующей',
-);
+const validateLowPrice = (value) => {
+  const regex = /[0-9]/g;
+  const minPrice = MIN_PRICE[type.value];
+  return regex.test(value) && value >= minPrice;
+};
 
-pristine.addValidator(
-  capacitySelect,
-  validateCapacity,
-  'Неподходящее количество гостей',
-);
+const validateHighPrice = (value) => {
+  const regex = /[0-9]/g;
+  return regex.test(value) && value <= MAX_PRICE;
+};
 
-function validateAdTitle(value) {
-  const exp = /[\w\d\s\n\W]{30,100}/i;
-  return exp.test(value);
+const validateCapacity = (value) =>
+  CAPACITY_OPTIONS[roomNumber.value].includes(Number(value));
+
+const setFormSubmit = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      const data = new FormData(evt.target);
+      blockSubmitBtn();
+      disableForm();
+
+      sendData(data, onSuccess, onError).then(() => {
+        unblockSubmitBtn();
+        enableForm();
+        resetMap();
+      });
+
+      getData(renderMarkers, displayAlert);
+    }
+  });
+};
+
+const createImageBlock = (url, parent) => {
+  const img = document.createElement('img');
+  img.src = url;
+  img.width = '70';
+  img.height = '70';
+  img.style.objectFit = 'contain';
+  parent.appendChild(img);
+};
+
+const uploadImage = (field, preview, purpose) => {
+  const file = field.files[0];
+  const fileName = file.name.toLowerCase();
+  // eslint-disable-next-line no-shadow
+  const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
+
+  if (matches) {
+    if (purpose === UPLOAD_PURPOSES.avatar) {
+      preview.src = URL.createObjectURL(file);
+    } else if (purpose === UPLOAD_PURPOSES.photo) {
+      preview.innerHTML = '';
+      createImageBlock(URL.createObjectURL(file), preview);
+    }
+  }
+};
+
+disableForm();
+
+if (checkIsMapInit()) {
+  enableForm();
 }
 
-function validateAdPrice(value) {
-  const exp = /[0-9]/g;
-  const minPrice = MIN_PRICE[typeSelect.value];
-  return exp.test(value) && value <= MAX_PRICE && value >= minPrice;
-}
+pristine.addValidator(title, validateTitle, ERROR_MESSAGES.title);
+pristine.addValidator(price, validateLowPrice, () =>
+  ERROR_MESSAGES.priceLow(MIN_PRICE[type.value]),
+);
+pristine.addValidator(price, validateHighPrice, ERROR_MESSAGES.priceHigh);
+pristine.addValidator(capacity, validateCapacity, ERROR_MESSAGES.capacity);
 
-function validateCapacity(value) {
-  return CAPACITY[roomSelect.value].includes(parseInt(value, 10));
-}
-
-typeSelect.addEventListener('change', () => {
-  priceInput.placeholder = MIN_PRICE[typeSelect.value];
-  pristine.validate(priceInput);
-});
-
-timeInSelect.addEventListener('change', (evt) => {
-  const timeOutOptions = timeOutSelect.querySelectorAll('option');
+timeIn.addEventListener('change', (evt) => {
   timeOutOptions.forEach((option) => {
     option.selected = option.value === evt.target.value;
   });
 });
 
-timeOutSelect.addEventListener('change', (evt) => {
-  const timeInOptions = timeInSelect.querySelectorAll('option');
+timeOut.addEventListener('change', (evt) => {
   timeInOptions.forEach((option) => {
     option.selected = option.value === evt.target.value;
   });
 });
 
-const setAdFormSubmit = debounce(() => {
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-
-    const isValid = pristine.validate();
-
-    if (isValid) {
-      blockSubmitBtn();
-      disableForm();
-      disableMapFilters();
-      sendData(new FormData(evt.target), onSuccess, onError)
-        .then(unblockSubmitBtn)
-        .then(enableForm)
-        .then(resetMap)
-        .finally(enableMapFilters);
-      getData(renderMarkers, showAlert);
-    }
-  });
-}, 500);
-
-setAdFormSubmit();
-
-noUiSlider.create(priceSlider, {
+noUiSlider.create(slider, {
   range: {
-    min: PRICE_SLIDER.min,
-    max: PRICE_SLIDER.max,
+    min: SLIDER_SETTINGS.min,
+    max: SLIDER_SETTINGS.max,
   },
-  start: PRICE_SLIDER.start,
-  step: PRICE_SLIDER.step,
+  start: SLIDER_SETTINGS.start,
+  step: SLIDER_SETTINGS.step,
   connect: 'lower',
   format: {
     to: function (value) {
@@ -244,64 +245,36 @@ noUiSlider.create(priceSlider, {
   },
 });
 
-priceSlider.noUiSlider.on('update', () => {
-  priceInput.value = priceSlider.noUiSlider.get();
-  pristine.validate(priceInput);
+slider.noUiSlider.on('update', () => {
+  price.value = slider.noUiSlider.get();
+  pristine.validate(price);
 });
 
-roomSelect.addEventListener('change', () => {
-  capacitySelect.value = CAPACITY[roomSelect.value][0];
-  pristine.validate(capacitySelect);
+price.addEventListener('input', () => {
+  slider.noUiSlider.set(price.value);
+  price.placeholder = MIN_PRICE[type.value];
+  pristine.validate(price);
 });
 
-avatarInput.addEventListener('change', () => {
-  const file = avatarInput.files[0];
-  const fileName = file.name.toLowerCase();
-
-  const isFileTypeValid = ALLOWED_FILE_TYPES.some((type) =>
-    fileName.endsWith(type),
-  );
-
-  if (isFileTypeValid) {
-    const reader = new FileReader();
-
-    reader.addEventListener('load', () => {
-      avatarPreview.src = reader.result;
-    });
-
-    reader.readAsDataURL(file);
-  }
+capacity.addEventListener('change', () => {
+  pristine.validate(capacity);
 });
 
-imagesInput.addEventListener('change', () => {
-  const file = imagesInput.files[0];
-  const fileName = file.name.toLowerCase();
-
-  const isFileTypeValid = ALLOWED_FILE_TYPES.some((type) =>
-    fileName.endsWith(type),
-  );
-
-  if (isFileTypeValid) {
-    const reader = new FileReader();
-
-    reader.addEventListener('load', () => {
-      const imageElement = document.createElement('img');
-      imageElement.src = reader.result;
-      imageElement.width = 70;
-      imageElement.height = 70;
-      imagesPreview.innerHTML = '';
-      imagesPreview.appendChild(imageElement);
-    });
-
-    reader.readAsDataURL(file);
-  }
+roomNumber.addEventListener('change', () => {
+  pristine.validate(capacity);
 });
 
-resetBtn.addEventListener('click', (evt) => {
-  evt.preventDefault();
+resetBtn.addEventListener('click', () => {
   clearForm();
-  resetMap();
-  pristine.reset();
+  debounce(() => resetMap())();
 });
 
-export { enableForm, enableMapFilters };
+uploadAvatar.addEventListener('change', () => {
+  uploadImage(uploadAvatar, avatarPreview, 'avatar');
+});
+
+uploadImages.addEventListener('change', () => {
+  uploadImage(uploadImages, imagesPreview, 'photo');
+});
+
+setFormSubmit();

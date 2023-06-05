@@ -1,6 +1,5 @@
-import './utility.js';
-import './data.js';
+import './util.js';
 import './form.js';
-import './mapUtils.js';
+import './map.js';
 import './api.js';
-import './filter.js';
+import './filters.js';
