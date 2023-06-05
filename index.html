@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
     <link rel="stylesheet" href="vendor/nouislider/nouislider.css" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <title>Кексобукинг</title>
   </head>
   <body>
@@ -26,11 +26,7 @@
       <!-- Карта объявлений -->
       <section class="map">
         <!-- Блок для вставки карты -->
-        <div
-          class="map__canvas"
-          id="map-canvas"
-          style="width: 100%; height: 600px;"
-        ></div>
+        <div class="map__canvas" id="map-canvas"></div>
 
         <!-- Фильтрация объявлений -->
         <div class="map__filters-container">
@@ -151,9 +147,9 @@
         <h2 class="notice__title">Ваше объявление</h2>
         <form
           class="ad-form"
+          action="https://28.javascript.pages.academy/keksobooking"
           method="post"
           enctype="multipart/form-data"
-          action="https://28.javascript.pages.academy/keksobooking"
           autocomplete="off"
         >
           <fieldset class="ad-form-header">
@@ -199,9 +195,7 @@
               id="title"
               name="title"
               type="text"
-              data-pristine-required-message="Поле обязательно для заполнению"
               placeholder="Милая, уютная квартирка в центре Токио"
-              required
             />
           </fieldset>
           <fieldset class="ad-form__element ad-form__element--wide">
@@ -209,12 +203,11 @@
               Адрес (координаты)
             </label>
             <input
+              readonly
               id="address"
               name="address"
               type="text"
-              data-pristine-required-message="Поле обязательно для заполнению"
-              readonly
-              required
+              value="35.68950, 139.69171"
             />
           </fieldset>
           <fieldset class="ad-form__element">
@@ -229,15 +222,8 @@
           </fieldset>
           <fieldset class="ad-form__element">
             <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-            <input
-              id="price"
-              name="price"
-              type="number"
-              placeholder="1000"
-              data-pristine-required-message="Поле обязательно к заполнению"
-              required
-            />
-            <div class="ad-form__slider"></div>
+            <input id="price" name="price" type="number" placeholder="1000" />
+            <div class="ad-form__slider" id="slider"></div>
           </fieldset>
           <fieldset class="ad-form__element ad-form__element--time">
             <label class="ad-form__label" for="timein">
@@ -268,9 +254,9 @@
           <fieldset class="ad-form__element">
             <label class="ad-form__label" for="capacity">Количество мест</label>
             <select id="capacity" name="capacity">
-              <option value="3">для 3 гостей</option>
+              <option value="3" selected>для 3 гостей</option>
               <option value="2">для 2 гостей</option>
-              <option value="1" selected>для 1 гостя</option>
+              <option value="1">для 1 гостя</option>
               <option value="0">не для гостей</option>
             </select>
           </fieldset>
@@ -393,6 +379,7 @@
           </fieldset>
         </form>
       </section>
+      <div class="alert-container hidden"></div>
     </main>
 
     <footer class="footer container">
@@ -505,9 +492,16 @@
         <button type="button" class="error__button">Попробовать снова</button>
       </div>
     </template>
-    <script src="vendor/leaflet/leaflet.js"></script>
-    <script src="vendor/pristine/pristine.min.js"></script>
-    <script src="vendor/nouislider/nouislider.js"></script>
+
+    <script
+      src="./vendor/pristine/pristine.min.js"
+      type="text/javascript"
+    ></script>
+    <script src="./vendor/leaflet/leaflet.js" type="text/javascript"></script>
+    <script
+      src="./vendor/nouislider/nouislider.js"
+      type="text/javascript"
+    ></script>
     <script src="./js/main.js" type="module"></script>
   </body>
 </html>
