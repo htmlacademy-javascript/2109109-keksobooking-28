@@ -99,12 +99,12 @@ const clearForm = () => {
   slider.noUiSlider.reset();
 };
 
-const onSuccess = () => {
+const handleSuccess = () => {
   clearForm();
   showModal('success');
 };
 
-const onError = () => {
+const handleError = () => {
   showModal('error');
 };
 
@@ -166,7 +166,7 @@ const setFormSubmit = () => {
       blockSubmitBtn();
       disableForm();
 
-      sendData(data, onSuccess, onError).then(() => {
+      sendData(data, handleSuccess, handleError).then(() => {
         unblockSubmitBtn();
         enableForm();
         resetMap();
