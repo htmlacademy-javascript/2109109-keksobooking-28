@@ -2,7 +2,7 @@ const ALERT_SHOW_TIME = 5000;
 
 const alertContainer = document.querySelector('.alert-container');
 
-const displayAlert = (message) => {
+const showAlert = (message) => {
   alertContainer.textContent = message;
 
   alertContainer.classList.remove('hidden');
@@ -32,4 +32,4 @@ const setElementAvailability = (
   });
 };
 
-export { displayAlert, isEscapeKeyPressed, debounce, setElementAvailability };
+export { showAlert, isEscapeKeyPressed, debounce, setElementAvailability };
