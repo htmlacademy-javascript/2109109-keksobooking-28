@@ -1,34 +1,35 @@
 const ALERT_SHOW_TIME = 5000;
 
-const container = document.querySelector('.alert-container');
+const alertContainer = document.querySelector('.alert-container');
 
-function displayAlert(message) {
-  container.textContent = message;
+const displayAlert = (message) => {
+  alertContainer.textContent = message;
 
-  container.classList.remove('hidden');
+  alertContainer.classList.remove('hidden');
   setTimeout(() => {
-    container.classList.add('hidden');
+    alertContainer.classList.add('hidden');
   }, ALERT_SHOW_TIME);
-}
+};
 
-function isEscapeKeyPressed(evt) {
-  return evt.key === 'Escape';
-}
+const isEscapeKeyPressed = (evt) => evt.key === 'Escape';
 
-function debounce(callback, timeoutDelay = 100) {
+const debounce = (callback, timeoutDelay = 100) => {
   let timeoutId;
 
-  return function (...rest) {
+  return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
-}
+};
 
-// eslint-disable-next-line no-shadow
-function setElementAvailability(selector, container = document, state = true) {
+const setElementAvailability = (
+  selector,
+  container = document,
+  state = true,
+) => {
   container.querySelectorAll(selector).forEach((element) => {
     element.disabled = state;
   });
-}
+};
 
 export { displayAlert, isEscapeKeyPressed, debounce, setElementAvailability };
