@@ -1,6 +1,6 @@
 import { getData, ERROR_MESSAGE } from './api.js';
 import { enableFilters, filterData } from './filters.js';
-import { displayAlert, debounce } from './util.js';
+import { showAlert, debounce } from './util.js';
 
 const PLACE_TYPES = {
   flat: 'Квартира',
@@ -194,7 +194,7 @@ const showFilteredData = debounce(() => {
 getData()
   .then(initData)
   .catch(() => {
-    displayAlert(ERROR_MESSAGE);
+    showAlert(ERROR_MESSAGE);
   });
 
 const resetMap = () => {
