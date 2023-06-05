@@ -1,7 +1,7 @@
 import { checkIsMapInit, renderMarkers, resetMap } from './map.js';
 import { getData, sendData } from './api.js';
 import {
-  displayAlert,
+  showAlert,
   isEscapeKeyPressed,
   debounce,
   setElementAvailability,
@@ -172,7 +172,7 @@ const setFormSubmit = () => {
         resetMap();
       });
 
-      getData(renderMarkers, displayAlert);
+      getData(renderMarkers, showAlert);
     }
   });
 };
